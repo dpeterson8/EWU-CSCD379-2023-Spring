@@ -9,7 +9,6 @@ namespace Wordle.Api.Data
         public required string Text { get; set; }
         public bool IsCommon { get; set; }
         
-        
         public static void SeedWords(AppDbContext db)
         {
             if (!db.Words.Any())

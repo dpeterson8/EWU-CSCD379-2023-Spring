@@ -12,6 +12,8 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("*");
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyHeader();
                       });
 });
 
@@ -29,6 +31,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 builder.Services.AddScoped<WordService>();
+builder.Services.AddScoped<PlayerService>();
 
 var app = builder.Build();
 

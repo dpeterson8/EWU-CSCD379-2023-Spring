@@ -13,6 +13,7 @@
   <WordList :game="game"></WordList>
 
   <h3>Current secret word: {{ game.secretWord }}</h3>
+  <PlayerNameCard :playerName="game.currentPlayer" @enterChar="setName"></PlayerNameCard>
 </template>
 
 <script setup lang="ts">
@@ -27,6 +28,7 @@ import WordList from '@/components/WordList.vue'
 import { WordleGameStatus } from '@/scripts/wordleGame'
 import WinCard from '@/components/WinCard.vue'
 import LoseCard from '@/components/LoseCard.vue'
+import PlayerNameCard from '@/components/PlayerNameCard.vue'
 
 var audio = new Audio(tone.default)
 audio.volume = 0.4
@@ -87,5 +89,9 @@ function keyPress(event: KeyboardEvent) {
     game.guess.push(event.key.toLowerCase())
     game.validWordList = WordsService.validWords(game.guess.text)
   }
+}
+
+function setName(name: string) {
+  game.setPlayerName(name)
 }
 </script>

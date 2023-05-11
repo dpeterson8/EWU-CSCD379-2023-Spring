@@ -1,5 +1,7 @@
 # Link to running webpage
-* https://proud-smoke-0a4e0fe1e.3.azurestaticapps.net
+* https://jolly-cliff-0cffb8a1e.3.azurestaticapps.net
+# Link to Api
+* https://wordlewebapp2023.azurewebsites.net/word
 
 ## Instructors ##
 [Grant Erickson](https://github.com/GrantErickson), [Meg Woodford](https://github.com/mmwoodfo), and [Mark Michaelis](https://github.com/MarkMichaelis)

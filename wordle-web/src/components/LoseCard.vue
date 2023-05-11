@@ -5,6 +5,7 @@
         <v-card-subtitle> oh no! </v-card-subtitle>
         <v-card-title> You lost! </v-card-title>
       </v-card-item>
+      <LeaderBoard class="mx-auto" />
 
       <v-card-actions>
         <v-btn variant="outlined" @click="restartGame"> Click to Restart Game </v-btn>
@@ -14,6 +15,8 @@
 </template>
 
 <script setup lang="ts">
+import LeaderBoard from '@/components/LeaderBoard.vue'
+
 const props = defineProps<{
   ifLoss: boolean
 }>()

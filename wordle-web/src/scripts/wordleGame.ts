@@ -1,6 +1,8 @@
 import { Word } from '@/scripts/word'
 import { WordsService } from './wordsService'
 import type { Letter } from './letter'
+import Axios from 'axios'
+import { Player } from './Player'
 
 export enum WordleGameStatus {
   Active = 0,
@@ -13,14 +15,18 @@ export class WordleGame {
     if (!secretWord) secretWord = WordsService.getRandomWord()
     this.numberOfGuesses = numberOfGuesses
     this.restartGame(secretWord)
+    this.currentPlayer = localStorage.getItem('playerName') || 'Guest'
   }
+  currentPlayer = 'Guest'
   guessedLetters: Letter[] = []
   guesses = new Array<Word>()
   secretWord = ''
   numberOfGuesses = 6
   validWordList = new Array<string>()
+  topPlayers = new Array<Player>()
   status = WordleGameStatus.Active
   guess!: Word
+  amountOfGuesses = 0
 
   // // check length of guess
   //   if (this.letters.length !== secretWord.length) {
@@ -41,9 +47,11 @@ export class WordleGame {
   }
 
   submitGuess() {
+    this.amountOfGuesses++
     // put logic to win here.
     if (this.guess.check(this.secretWord)) {
       this.status = WordleGameStatus.Won
+      this.postPlayerToApi(this.currentPlayer, this.amountOfGuesses)
     }
 
     // Update the guessed letters
@@ -71,9 +79,47 @@ export class WordleGame {
     }
   }
 
+  setPlayerName(name: string) {
+    if (name != '' && name != null) {
+      this.currentPlayer = name
+    } else {
+      this.currentPlayer = 'Guest'
+    }
+
+    localStorage.setItem('playerName', name)
+  }
+
   removeGuess() {
     while (this.guess.text !== '') {
       this.guess.pop()
     }
+  }
+
+  postPlayerToApi(name: string, attempts: number) {
+    Axios.post('https://wordlewebapp2023.azurewebsites.net/Player', {
+      playerName: name,
+      gameCount: 1,
+      averageAttempts: attempts
+    })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  async getTopPlayers(): Promise<string> {
+    const response = await Axios.get(
+      'https://wordlewebapp2023.azurewebsites.net/Player/GetTopPlayers'
+    )
+
+    const tempArr = new Array<Player>()
+    for (const player of response.data) {
+      tempArr.push(new Player(player.playerName, player.averageAttempts))
+    }
+    this.topPlayers = tempArr
+
+    return response.data
   }
 }

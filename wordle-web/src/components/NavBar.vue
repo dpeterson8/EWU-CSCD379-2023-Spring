@@ -24,6 +24,12 @@
           to="/"
         ></v-list-item>
         <v-list-item prepend-icon="mdi-forum" title="About" value="about" to="/about"></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-abacus"
+          title="Leader-board"
+          value="leader-board"
+          to="/leaderboard"
+        ></v-list-item>
       </v-list>
     </v-navigation-drawer>
   </v-layout>
